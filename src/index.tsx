@@ -1,19 +1,34 @@
-import React from 'react';
+/*
+ * @Author: cos
+ * @Date: 2022-05-10 21:16:10
+ * @LastEditTime: 2022-06-13 02:06:39
+ * @LastEditors: cos
+ * @Description:
+ * @FilePath: \byte-search\src\index.tsx
+ */
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import './global.scss';
+import 'antd/dist/antd.min.css';
+import { FallbackLoading } from 'components/FallbackLoading';
+import { BrowserRouter, useRoutes } from 'react-router-dom';
+import { routeConfig } from './router';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor, store } from './redux/store';
+const Index = () => {
+  return <Suspense fallback={<FallbackLoading />}>{useRoutes(routeConfig)}</Suspense>;
+};
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <Index />
+        </PersistGate>
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

@@ -1,0 +1,21 @@
+/* 全局样式表 */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+}
+
+/* 全局滚动条美化 */
+*::-webkit-scrollbar {
+    width: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background   : #ccc;
+    border-radius: 5px;
+}

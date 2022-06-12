@@ -1,10 +1,51 @@
-# Getting Started with Create React App
+# 搜索引擎项目
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 启动项目
 
-## Available Scripts
+本项目需要 [Node.js](https://nodejs.org/zh-cn/) 环境
 
-In the project directory, you can run:
+可输入`node -v` 查看是否安装 node.js，若未安装，可至此处下载：[Node.js](https://nodejs.org/zh-cn/)
+
+如未安装，可通过如下命令来安装 node.js
+
+```bash
+# 下载依赖
+npm install
+# 启动项目
+npm start
+```
+
+启动后自动打开，运行在 http://localhost:3000
+
+可通过根目录的 `.env` 更改运行端口
+
+# 目录结构
+
+```
+├───public          静态资源目录
+├───src             源码目录
+    ├───global.css  全局CSS样式
+    ├───index.tsx
+    │
+    ├───@types      全局type
+    ├───components  通用组件
+    ├───hooks       自定义Hooks
+    ├───lib
+    │   ├───lowcode-editor      低代码编辑器
+    │   ....
+    ├───pages       独立页面
+    │   ├───App
+    │   ├───Login
+    │   ├───ProjectEditor
+    │   ├───ProjectList
+    │   └───UserHome
+    ├───redux       redux逻辑
+    ├───route       路由
+    ├───service     网络接口
+    └───util        实用工具
+```
+
+# npm 脚本
 
 ### `npm start`
 
