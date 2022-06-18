@@ -1,7 +1,7 @@
 /*
  * @Author: cos
  * @Date: 2022-05-29 01:13:44
- * @LastEditTime: 2022-06-12 23:28:12
+ * @LastEditTime: 2022-06-19 02:32:16
  * @LastEditors: cos
  * @Description: 路由配置
  * @FilePath: \byte-search\src\router\index.tsx
@@ -11,6 +11,7 @@ import React from 'react';
 import { Navigate, Outlet, RouteObject } from 'react-router';
 import LoginRedirect from 'components/LoginRedirect';
 import NotFound from 'components/NotFound';
+import Register from 'pages/Register';
 
 const App = React.lazy(() => import('pages/App'));
 const Home = React.lazy(() => import('pages/Home'));
@@ -35,6 +36,10 @@ export const routeConfig: RouteObject[] = [
       {
         path: 'login',
         element: <Login />,
+      },
+      {
+        path: 'register',
+        element: <Register />,
       },
       {
         path: 'admin/',

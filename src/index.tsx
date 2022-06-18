@@ -1,11 +1,12 @@
 /*
  * @Author: cos
  * @Date: 2022-05-10 21:16:10
- * @LastEditTime: 2022-06-13 02:06:39
+ * @LastEditTime: 2022-06-18 23:35:13
  * @LastEditors: cos
  * @Description:
  * @FilePath: \byte-search\src\index.tsx
  */
+import '@ant-design/pro-components/dist/components.css';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import './global.scss';

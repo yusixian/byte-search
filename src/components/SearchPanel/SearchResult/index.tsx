@@ -1,17 +1,18 @@
 /*
  * @Author: cos
  * @Date: 2022-05-29 00:48:09
- * @LastEditTime: 2022-06-13 02:30:24
+ * @LastEditTime: 2022-06-18 19:54:09
  * @LastEditors: cos
  * @Description: 搜索建议
  * @FilePath: \byte-search\src\components\SearchPanel\SearchResult\index.tsx
  */
-import { Alert, Empty, Pagination, Image } from 'antd';
+import { Alert, Empty, Pagination, Image, Card } from 'antd';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 import styled from 'styled-components';
 import { setSearchText } from 'redux/searchSlice';
+import Meta from 'antd/lib/card/Meta';
 const Results = styled.section`
   width: 100%;
   display: flex;
@@ -24,8 +25,23 @@ const ImageList = styled.section`
   width: 100%;
   display: flex;
   flex-flow: wrap;
-  justify-content: center;
   align-items: center;
+  gap: 1rem;
+`;
+const ImageItem = styled.section`
+  width: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem;
+  border-radius: 8px;
+  border: 2px solid #e8e8e8;
+`;
+const Zi = styled.section`
+  display: block;
+  height: 0;
+  width: 200px;
 `;
 const SearchResult = React.memo(() => {
   const dispatch = useDispatch();
@@ -52,32 +68,24 @@ const SearchResult = React.memo(() => {
     return (
       <>
         <Alert style={{ width: '100%' }} message={msg} type="success" showIcon />
-        <Image.PreviewGroup>
+        <ImageList>
           {contents.map((item) => (
-            <>
-              <Image key={item.id} src={item.url} alt={item.text} width={200} />
-              <div>描述: {item.text}</div>
-              <div>
-                图片地址: <a href={item.url}>{item.url}</a>
-              </div>
-            </>
+            <Card
+              key={item.id}
+              style={{ width: 300 }}
+              hoverable
+              cover={<Image src={item.url} alt={item.text} width={300} />}
+            >
+              <Meta title={item.text} description={<a href={item.url}>{item.url}</a>} />
+            </Card>
           ))}
-          <Image
-            key={11111}
-            src={'https://cdn.jsdelivr.net/gh/yusixian/imgBed/img/easy-mooc-maker/20220428img1.png'}
-            width={200}
-          />
-          <Image
-            key={2222}
-            src={'https://cdn.jsdelivr.net/gh/yusixian/imgBed/img/easy-mooc-maker/20220428ppt-1.png'}
-            width={200}
-          />
-          <Image
-            key={3333}
-            src={'https://cdn.jsdelivr.net/gh/yusixian/imgBed/img/easy-mooc-maker/20220428ppt-5.png'}
-            width={200}
-          />
-        </Image.PreviewGroup>
+          <Zi></Zi>
+          <Zi></Zi>
+          <Zi></Zi>
+          <Zi></Zi>
+          <Zi></Zi>
+          <Zi></Zi>
+        </ImageList>
         <Pagination onChange={onPageChange} defaultCurrent={page} total={pagecount} />
       </>
     );

@@ -1,7 +1,7 @@
 /*
  * @Author: cos
  * @Date: 2022-05-10 21:16:10
- * @LastEditTime: 2022-06-13 02:27:05
+ * @LastEditTime: 2022-06-18 22:32:07
  * @LastEditors: cos
  * @Description: 首页
  * @FilePath: \byte-search\src\pages\Home\index.tsx
@@ -13,7 +13,7 @@ import './index.scss';
 const Home = React.memo(() => {
   return (
     <div className="home-wrapper">
-      {/* <WebSiteHeader /> */}
+      <WebSiteHeader />
       <Search />
     </div>
   );

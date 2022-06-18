@@ -1,14 +1,14 @@
 /*
  * @Author: cos
  * @Date: 2022-05-10 21:48:51
- * @LastEditTime: 2022-06-13 01:54:26
+ * @LastEditTime: 2022-06-19 00:31:24
  * @LastEditors: cos
  * @Description: 搜索框
  * @FilePath: \byte-search\src\components\SearchPanel\SearchInput\index.tsx
  */
 import React, { useRef, useState } from 'react';
 import './index.scss';
-import Icon from 'components/Icon';
+import Icon from '../../Icon';
 import { debounce } from 'utils/global';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
@@ -28,6 +28,25 @@ const SearchInput = React.memo(() => {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  const fetchSearchResult = async (text: string) => {
+    let searchParams: API.SearchParams = {
+      QueryText: text, // 要查询的文本
+      page: 1, // 当前页
+      limit: 10, // 总页码
+      order: 0, // 排序方式 0
+    };
+    const searchData = await queryByText(searchParams);
+    if (searchData) {
+      dispatch(setIsSearching(false));
+      dispatch(setSearchResult(searchData));
+    }
+  };
+  const fetchSuggestions = async (text: string) => {
+    const { relatedtexts } = await getSuggestionsByText(inputValue);
+    console.log('suggestions:', relatedtexts);
+    dispatch(setSuggestionList(relatedtexts));
+  };
+
   useDebounce(() => dispatch(setSearchText(currentInputValue)), 2000, [currentInputValue]);
 
   useDidUpdateEffect(() => {
@@ -35,26 +54,8 @@ const SearchInput = React.memo(() => {
       inputRef.current && inputRef.current.focus();
       setCurrentInputValue(inputValue);
     }
-    let searchParams: API.SearchParams = {
-      QueryText: inputValue, // 要查询的文本
-      page: 1, // 当前页
-      limit: 10, // 总页码
-      order: 0, // 排序方式 0
-    };
-    queryByText(searchParams).then((res) => {
-      console.log('搜索结果:', res);
-      const data = res.data.data;
-      if (data) {
-        dispatch(setIsSearching(false));
-        dispatch(setSearchResult(data));
-      }
-    });
-    getSuggestionsByText(inputValue).then((res) => {
-      const data = res.data.data;
-      const { relatedtexts } = data;
-      console.log('suggestions:', relatedtexts);
-      dispatch(setSuggestionList(relatedtexts));
-    });
+    fetchSuggestions(inputValue);
+    fetchSearchResult(inputValue);
   }, [inputValue]);
   const onClear = () => {
     console.log('clear!!');
@@ -79,6 +80,7 @@ const SearchInput = React.memo(() => {
           if (!inp.value) dispatch(setIsSearching(false));
         }}
       />
+
       <Icon
         type="clear"
         style={{ fontSize: 24, color: 'gray', cursor: 'pointer' }}

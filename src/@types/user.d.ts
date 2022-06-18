@@ -1,7 +1,7 @@
 /*
  * @Author: cos
  * @Date: 2022-05-29 01:23:22
- * @LastEditTime: 2022-05-29 01:24:05
+ * @LastEditTime: 2022-06-19 01:13:30
  * @LastEditors: cos
  * @Description: 用户信息定义
  * @FilePath: \byte-search\src\@types\user.d.ts
@@ -13,6 +13,5 @@ type User = {
   isAdmin: boolean;
   username: string;
   password: string;
-  autoLogin?: boolean;
-  token?: string;
+  token: string;
 };

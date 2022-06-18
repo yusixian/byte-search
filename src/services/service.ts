@@ -1,13 +1,12 @@
 /*
  * @Author: cos
  * @Date: 2022-06-13 00:31:23
- * @LastEditTime: 2022-06-13 01:24:37
+ * @LastEditTime: 2022-06-19 01:05:47
  * @LastEditors: cos
  * @Description: axios封装
  * @FilePath: \byte-search\src\services\service.ts
  */
-import axios from 'axios';
-import qs from 'qs';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const BaseURL = '/api/v1'; //默认路径，这里也可以使用env来判断环境
 //使用create方法创建axios实例
@@ -20,11 +19,16 @@ export const Service = axios.create({
   baseURL: BaseURL,
   method: 'post',
   headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
+    'Content-Type': 'application/json',
   },
 });
-// 请求拦截器
-Service.interceptors.request.use((config) => {
-  config.data = qs.stringify(config.data); // 转为formdata数据格式
-  return config;
-});
+// 泛型接口,T的类型支持
+export interface IResponseData<T = any> {
+  code: number;
+  message: string;
+  data: T;
+}
+// 通用的请求函数
+export async function request<T>(config: AxiosRequestConfig) {
+  return Service.request<IResponseData<T>>(config).then((res) => res.data.data);
+}

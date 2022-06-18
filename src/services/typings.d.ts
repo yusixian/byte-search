@@ -1,7 +1,7 @@
 /*
  * @Author: cos
  * @Date: 2022-05-04 17:21:08
- * @LastEditTime: 2022-06-13 01:43:08
+ * @LastEditTime: 2022-06-19 02:23:14
  * @LastEditors: cos
  * @Description:
  * @FilePath: \byte-search\src\services\typings.d.ts
@@ -20,13 +20,6 @@ declare namespace API {
     phone?: string;
     authority?: 'admin' | 'user' | 'guest';
   };
-  type LoginResult = {
-    status?: statusType;
-    type?: loginType;
-    currentAuthority?: userType;
-    token?: string;
-  };
-
   type SearchParams = {
     QueryText: string; // 要查询的文本
     FilterText?: string; // 要过滤的文本
@@ -46,58 +39,25 @@ declare namespace API {
     pagecount: number;
     time: number;
   };
+  type SuggestionsResult = {
+    relatedtexts: String[];
+  };
   type LoginParams = {
-    username?: string;
-    password?: string;
-    autoLogin?: boolean;
-    type?: string;
+    username: string;
+    password: string;
   };
-  type StoreInfoParams = {
-    name?: string; // 仓库名称
-    personInCharge: number; // 仓库负责人id
-    storageLocation: string; // 仓库地址
-    placeOfOrigin: string; // 产地
-    storeType: number; // 仓型
-    harvestTime: string; // 收获年限
-    storeCapacity: string; // 仓容
-    storageTime: string; // 入仓时间
-    varieties: number; // 品种
-    level: string; // 等级
-    storageProperties: string; // 存储性质
-    impurity: string; // 杂质
-    storageNumber: string; // 存储数量
-    lenth: string; // 长度
-    width: string; // 宽度
-    height: string; // 高度
+  type LoginResult = {
+    code: 401 | 200;
+    expire: string;
+    token: string;
   };
-  type ErrorResponse = {
-    /** 业务约定的错误码 */
-    errorCode: string;
-    /** 业务上的错误信息 */
-    errorMessage?: string;
-    /** 业务上的请求是否成功 */
-    success?: boolean;
+  type RegisterResult = {
+    code: 0 | 10002;
+    message: string;
+    data: null;
   };
-  type StoreInfoSubmitResult = { status: statusType; Debug?: string[] };
-  type NoticeIconList = {
-    data?: NoticeIconItem[];
-    /** 列表的内容总数 */
-    total?: number;
-    success?: boolean;
-  };
-
-  type NoticeIconItemType = 'notification' | 'message' | 'event';
-
-  type NoticeIconItem = {
-    id?: string;
-    extra?: string;
-    key?: string;
-    read?: boolean;
-    avatar?: string;
-    title?: string;
-    status?: string;
-    datetime?: string;
-    description?: string;
-    type?: NoticeIconItemType;
+  type CollectionResult = {
+    colltid: number[];
+    name: string[];
   };
 }

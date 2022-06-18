@@ -1,46 +1,44 @@
 /*
  * @Author: cos
  * @Date: 2022-05-29 00:42:46
- * @LastEditTime: 2022-06-19 02:32:27
+ * @LastEditTime: 2022-06-19 02:53:37
  * @LastEditors: cos
  * @Description:
- * @FilePath: \byte-search\src\pages\Login\index.tsx
+ * @FilePath: \byte-search\src\pages\Register\index.tsx
  */
 import React from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { message } from 'antd';
-import { login } from 'services/api';
+import { login, register } from 'services/api';
 import localStorageUtil from 'utils/localStorageUtil';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUserCache } from 'redux/userSlice';
 
-const Login = React.memo(() => {
+const Register = React.memo(() => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleGoRegister = () => {
-    navigate('/register');
+  const handleGoLogin = () => {
+    navigate('/login');
   };
   const handleSubmit = async (values: API.LoginParams) => {
     try {
-      // 登录
+      // 注册
       const { username, password } = values;
-      //   console.log('values:', values);
-      const loginRes = await login({ username, password });
-      //   console.log('loginRes:', loginRes);
-      if (loginRes.code === 200) {
-        const { token } = loginRes;
-        console.log('token:', token);
-        const defaultLoginSuccessMessage = '登录成功！';
-        message.success(defaultLoginSuccessMessage);
+
+      const regisRes = await register({ username, password });
+      console.log('regisRes:', regisRes);
+      if (regisRes.code === 0) {
+        const { token } = await login({ username, password });
+        // console.log('token:', token);
+        message.success('注册成功！');
         localStorageUtil.setItem('token', token);
         dispatch(setUserCache({ username, password, token }));
         navigate('/home');
-        return;
       }
     } catch (error) {
-      const defaultLoginFailureMessage = '登录失败，请重试！';
+      const defaultLoginFailureMessage = '注册失败，请重试！';
       message.error(defaultLoginFailureMessage);
     }
   };
@@ -48,11 +46,30 @@ const Login = React.memo(() => {
     <div style={{ backgroundColor: 'white' }}>
       <LoginForm
         logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
-        title="余弦搜索"
-        subTitle="副标题还没有想到就先不想了"
+        title="注册"
+        subTitle="快来注册吧"
+        actions={
+          <div
+            style={{
+              width: '100%',
+              textAlign: 'center',
+            }}
+          >
+            <a
+              onClick={handleGoLogin}
+              style={{
+                color: 'red',
+                fontSize: 16,
+              }}
+            >
+              已有帐户？前往登录！
+            </a>
+          </div>
+        }
         onFinish={async (values) => {
           await handleSubmit(values as API.LoginParams);
         }}
+        submitter={{ searchConfig: { submitText: '注册' } }}
       >
         <>
           <ProFormText
@@ -61,7 +78,7 @@ const Login = React.memo(() => {
               size: 'large',
               prefix: <UserOutlined className={'prefixIcon'} />,
             }}
-            placeholder={'用户名: admin or user'}
+            placeholder={'用户名'}
             rules={[
               {
                 required: true,
@@ -75,7 +92,7 @@ const Login = React.memo(() => {
               size: 'large',
               prefix: <LockOutlined className={'prefixIcon'} />,
             }}
-            placeholder={'密码: ant.design'}
+            placeholder={'密码'}
             rules={[
               {
                 required: true,
@@ -88,22 +105,9 @@ const Login = React.memo(() => {
           style={{
             marginBottom: 24,
           }}
-        >
-          <ProFormCheckbox noStyle name="autoLogin">
-            自动登录
-          </ProFormCheckbox>
-          <a
-            onClick={handleGoRegister}
-            style={{
-              float: 'right',
-              color: 'red',
-            }}
-          >
-            没有账户？前往注册！
-          </a>
-        </div>
+        ></div>
       </LoginForm>
     </div>
   );
 });
-export default Login;
+export default Register;
